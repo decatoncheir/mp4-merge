@@ -16,7 +16,7 @@
 ####################################################
 check_dependency(){
     echo "ffmpeg    $(echo_if $(program_is_installed ffmpeg))"
-    echo "gpac      $(echo_if $(program_is_installed mp4box))"
+    echo "gpac      $(echo_if $(program_is_installed MP4Box))"
     echo "mp4v2     $(echo_if $(program_is_installed mp4chaps))"
     echo "coreutils $(echo_if $(program_is_installed grealpath))"
 }
@@ -81,7 +81,7 @@ add_chaptermark(){
     local input="$2"
     echo "chapterfile:" "$chapterfile"
 
-    mp4box -chap "$chapterfile" "$input" &&
+    MP4Box -chap "$chapterfile" "$input" &&
     mp4chaps --convert --chapter-qt "$input"
 }
 
