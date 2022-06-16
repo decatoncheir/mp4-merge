@@ -19,4 +19,4 @@ COPY mp4.sh .
  
 RUN chmod 755 mp4.sh && mkdir /src && mkdir /target && ln -s $(which date) /bin/gdate
 
-CMD ./mp4.sh merge_as_chapter /src/*.mp4 /target/output.mp4 && cp /tmp/youtube_chapterfile.log /target/output.log
+CMD true > /tmp/youtube_chapterfile.log && ./mp4.sh merge_as_chapter /src/*.mp4 /target/output.mp4 && cp /tmp/youtube_chapterfile.log /target/output.log
