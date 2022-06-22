@@ -103,10 +103,10 @@ create_chapterfile(){
 
 # create chapterfile log
 
-        printf "%s=%s\n" "$chapter_number" $(gdate -d@"$chapter_start" -u +%T.%3N) | tee -a /tmp/create_chapterfile.log
-        printf "%sNAME=%s\n" "$chapter_number" "$chapter_name" | tee -a /tmp/create_chapterfile.log
+        printf "%s=%s\n" "$chapter_number" $(gdate -d@"$chapter_start" -u +%T.%3N) | tee -a /target/create_chapterfile.log
+        printf "%sNAME=%s\n" "$chapter_number" "$chapter_name" | tee -a /target/create_chapterfile.log
 
-        printf "%s %s\n" $(gdate -d@"$chapter_start" -u +%T) "$chapter_name" >> /tmp/youtube_chapterfile.log
+        printf "%s %s\n" $(gdate -d@"$chapter_start" -u +%T) "$chapter_name" >> /target/youtube_chapterfile.log
 
         chapter_end=$(bc <<< "scale=6;$chapter_end+ $duration")
         chapter_start=$(bc <<< "scale=6;$chapter_end+ 0.001")
@@ -116,7 +116,7 @@ create_chapterfile(){
 create_filelist(){
     for file in "$@"; do
         # printf "file %q\n" "$(grealpath "$file")" | tee -a /tmp/create_filelist.log
-        echo "file '$file'" | tee -a /target/output.log
+        echo "file '$file'" | tee -a /target/create_filelist.log
     done
 }
 
