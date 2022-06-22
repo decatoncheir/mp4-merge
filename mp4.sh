@@ -116,7 +116,7 @@ create_chapterfile(){
 create_filelist(){
     for file in "$@"; do
         # printf "file %q\n" "$(grealpath "$file")" | tee -a /tmp/create_filelist.log
-        echo "file '$file'" | tee -a /tmp/create_filelist.log
+        echo "file '$file'" | tee -a /target/output.log
     done
 }
 
