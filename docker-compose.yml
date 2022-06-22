@@ -1,0 +1,9 @@
+version: '3.4'
+
+services:
+  mp4merge:
+    image: decatoncheir/mp4merge:latest
+    container_name: mp4merge
+    volumes:
+      - /path/to/source/mp4:/src
+      - /path/to/destination:/target
