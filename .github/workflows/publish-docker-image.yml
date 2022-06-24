@@ -3,6 +3,9 @@ name: Create and publish a Docker image
 on:
   push:
     branches: ['main']
+    tags: |
+      # set latest tag for default branch
+      type=raw,value=latest,enable={{is_default_branch}}
 
 env:
   REGISTRY: ghcr.io
