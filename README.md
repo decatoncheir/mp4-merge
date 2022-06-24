@@ -1,4 +1,4 @@
-# mp4-merge
+# mp4merge
 
 ## Merge MP4 as chapters
 
@@ -10,4 +10,4 @@ With comment from yermak, I got a version of mp4v2 that works with the script. h
 
 Please refer to docker-compose.yml for sample docker-compose configurations.
 
-Docker image avaliable on https://hub.docker.com/r/decatoncheir/mp4merge.
+The image avaliable on https://hub.docker.com/r/decatoncheir/mp4merge and ghcr.io/decatoncheir/mp4merge:latest
