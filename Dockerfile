@@ -39,4 +39,3 @@ RUN chmod 700 /bin/mp4.sh
 WORKDIR /config
 
 ENTRYPOINT [ "/bin/mp4.sh" ]
-#ENTRYPOINT [ "/bin/bash" ]
