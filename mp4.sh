@@ -1,4 +1,4 @@
-#! /usr/bin/env bash
+#! /bin/bash
 
 ####################################################
 # Required Libraries
@@ -20,6 +20,12 @@ check_dependency(){
     echo "mp4v2     $(echo_if $(program_is_installed mp4chaps))"
     echo "coreutils $(echo_if $(program_is_installed grealpath))"
 }
+
+if [ "$#" -lt 3 ]; then
+    echo "Error: Wrong number of parameters:"
+    echo "Usage: $0 merge_as_chapter input.mp4 [input.mp4...] output.mp4"
+    exit 1
+fi
 
 # Merge multiple mp4 files as chapters
 #   - Each input file name will be the chapter title
@@ -103,10 +109,10 @@ create_chapterfile(){
 
 # create chapterfile log
 
-        printf "%s=%s\n" "$chapter_number" $(gdate -d@"$chapter_start" -u +%T.%3N) | tee -a /target/create_chapterfile.log
-        printf "%sNAME=%s\n" "$chapter_number" "$chapter_name" | tee -a /target/create_chapterfile.log
+        printf "%s=%s\n" "$chapter_number" $(date -d@"$chapter_start" -u +%T.%3N) | tee -a /config/create_chapterfile.log
+        printf "%sNAME=%s\n" "$chapter_number" "$chapter_name" | tee -a /config/create_chapterfile.log
 
-        printf "%s %s\n" $(gdate -d@"$chapter_start" -u +%T) "$chapter_name" >> /target/youtube_chapterfile.log
+        printf "%s %s\n" $(date -d@"$chapter_start" -u +%T) "$chapter_name" >> /config/youtube_chapterfile.log
 
         chapter_end=$(bc <<< "scale=6;$chapter_end+ $duration")
         chapter_start=$(bc <<< "scale=6;$chapter_end+ 0.001")
@@ -116,7 +122,7 @@ create_chapterfile(){
 create_filelist(){
     for file in "$@"; do
         # printf "file %q\n" "$(grealpath "$file")" | tee -a /tmp/create_filelist.log
-        echo "file '$file'" | tee -a /target/create_filelist.log
+        echo "file '$file'" | tee -a /config/create_filelist.log
     done
 }
 

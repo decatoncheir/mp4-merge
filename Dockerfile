@@ -1,22 +1,42 @@
-FROM ubuntu:latest
+FROM alpine:3.21 AS build
 
-RUN apt-get update && apt-get install -y \
-    ffmpeg \
-    gpac \
-    coreutils \
-    wget \
-    bc \
-    && rm -rf /var/lib/apt/lists/*
+RUN apk add build-base autoconf automake libtool
 
-# install mp4v2
+WORKDIR /app
+RUN wget -qO- https://github.com/enzo1982/mp4v2/archive/refs/tags/v2.1.3.tar.gz | tar zxvf - -C /app
 
-RUN wget http://archive.ubuntu.com/ubuntu/pool/universe/m/mp4v2/libmp4v2-2_2.0.0~dfsg0-6_amd64.deb \
-    && wget http://archive.ubuntu.com/ubuntu/pool/universe/m/mp4v2/mp4v2-utils_2.0.0~dfsg0-6_amd64.deb \
-    && dpkg -i libmp4v2-2_2.0.0~dfsg0-6_amd64.deb \
-    && dpkg -i mp4v2-utils_2.0.0~dfsg0-6_amd64.deb
+WORKDIR /app/mp4v2-2.1.3
+RUN <<EOT
+        autoreconf -i
+        ./configure
+        make
+	make install
+EOT
 
-COPY mp4.sh .
- 
-RUN chmod 755 mp4.sh && mkdir /src && mkdir /target && ln -s $(which date) /bin/gdate
+FROM alpine:3.21
 
-CMD ./mp4.sh merge_as_chapter /src/*.mp4 /target/output.mp4
+RUN apk add --no-cache ffmpeg coreutils bc bash dpkg gcompat
+
+# install gpac
+COPY --from=gpac/ubuntu /gpac/binaries/gpac /gpac/binaries/MP4Box /bin/
+
+# install mp4chaps
+COPY --from=build /usr/local/bin/mp4* /bin/
+COPY --from=build /usr/local/lib/libmp4v2.so.2.1.3 /lib/
+COPY --from=build /usr/local/lib/libmp4v2.la /lib/
+
+WORKDIR /lib
+RUN <<EOT
+	ln -s -f libmp4v2.so.2.1.3 libmp4v2.so.2
+	ln -s -f libmp4v2.so.2.1.3 libmp4v2.so
+EOT
+
+#RUN ln -s $(which date) /bin/gdate
+
+COPY mp4.sh /bin/
+RUN chmod 700 /bin/mp4.sh
+
+WORKDIR /config
+
+ENTRYPOINT [ "/bin/mp4.sh" ]
+#ENTRYPOINT [ "/bin/bash" ]
