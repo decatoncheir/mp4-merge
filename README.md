@@ -13,4 +13,4 @@ Please refer to docker-compose.yml for sample docker-compose configurations.
 The image avaliable on https://hub.docker.com/r/decatoncheir/mp4merge and ghcr.io/decatoncheir/mp4merge:latest
 
 ## Usage
-	```docker run -it --rm -v $(pwd):/config ghcr.io/decatoncheir/mp4merge:latest merge_as_chapter input1.mp4 [input2.mp4 ...] output.mp4```
+	`docker run -it --rm -v $(pwd):/config ghcr.io/decatoncheir/mp4merge:latest merge_as_chapter input1.mp4 [input2.mp4 ...] output.mp4`
